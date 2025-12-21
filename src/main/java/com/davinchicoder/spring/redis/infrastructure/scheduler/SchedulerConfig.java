@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling
 @EnableSchedulerLock(defaultLockAtMostFor = "PT30S")
-public class ShedLockConfig {
+public class SchedulerConfig {
 
     @Bean
     public LockProvider lockProvider(RedisConnectionFactory connectionFactory) {

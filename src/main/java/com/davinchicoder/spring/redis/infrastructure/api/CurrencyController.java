@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/{version}/prices", version = "v1")
 @RequiredArgsConstructor
-public class PricesController {
+public class CurrencyController {
 
     @GetMapping
     public ResponseEntity<String> getPrices() {

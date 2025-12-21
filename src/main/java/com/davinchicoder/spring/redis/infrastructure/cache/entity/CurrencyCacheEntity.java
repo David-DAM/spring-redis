@@ -6,22 +6,20 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
-@RedisHash("prices")
+@RedisHash("currency")
 @Data
-public class PricesCacheEntity implements Serializable {
+public class CurrencyCacheEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -3366787961443564799L;
 
     @Id
-    private String currency;
+    private String code;
     private String symbol;
-    private Double price;
-    private String exchange;
-    private String timestamp;
-    private String timezone;
-    private String type;
-    private String source;
+    private String name;
+    private Double ratePerUsd;
+    private LocalDateTime lastModified;
 
 }
