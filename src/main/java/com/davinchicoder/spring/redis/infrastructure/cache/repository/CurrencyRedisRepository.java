@@ -28,11 +28,11 @@ public class CurrencyRedisRepository {
     }
 
     public void upsert(Currency currency) {
-        currencyQueryRedisRepository.save(mapper.mapToEntity(currency));
+        currencyQueryRedisRepository.save(mapper.mapToCacheEntity(currency));
     }
 
     public void upsertAll(List<Currency> currencies) {
-        List<CurrencyCacheEntity> cacheEntities = currencies.stream().map(mapper::mapToEntity).toList();
+        List<CurrencyCacheEntity> cacheEntities = currencies.stream().map(mapper::mapToCacheEntity).toList();
         currencyQueryRedisRepository.saveAll(cacheEntities);
     }
 

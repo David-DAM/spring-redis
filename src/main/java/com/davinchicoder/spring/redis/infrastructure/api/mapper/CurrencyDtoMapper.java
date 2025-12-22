@@ -1,6 +1,7 @@
-package com.davinchicoder.spring.redis.infrastructure.api;
+package com.davinchicoder.spring.redis.infrastructure.api.mapper;
 
 import com.davinchicoder.spring.redis.domain.Currency;
+import com.davinchicoder.spring.redis.infrastructure.api.dto.CurrencyDto;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

@@ -1,8 +1,8 @@
-package com.davinchicoder.spring.redis.infrastructure.scheduler.client;
+package com.davinchicoder.spring.redis.infrastructure.api.dto;
 
 import java.time.LocalDateTime;
 
-public record CurrencyClientDto(
+public record CurrencyDto(
         String code,
         String symbol,
         String name,

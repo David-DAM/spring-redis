@@ -1,4 +1,4 @@
-package com.davinchicoder.spring.redis.infrastructure.api;
+package com.davinchicoder.spring.redis.infrastructure.api.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ApiVersionConfigurer;

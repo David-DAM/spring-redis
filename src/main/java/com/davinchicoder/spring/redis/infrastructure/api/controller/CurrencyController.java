@@ -1,7 +1,9 @@
-package com.davinchicoder.spring.redis.infrastructure.api;
+package com.davinchicoder.spring.redis.infrastructure.api.controller;
 
 import com.davinchicoder.spring.redis.application.CurrencyService;
 import com.davinchicoder.spring.redis.domain.Currency;
+import com.davinchicoder.spring.redis.infrastructure.api.dto.CurrencyDto;
+import com.davinchicoder.spring.redis.infrastructure.api.mapper.CurrencyDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/{version}/prices", version = "v1")
+@RequestMapping(value = "/api/{version}/currency", version = "v1")
 @RequiredArgsConstructor
 public class CurrencyController {
 

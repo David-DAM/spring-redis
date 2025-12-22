@@ -12,9 +12,10 @@ import java.util.Map;
 public class CurrencyCacheMapper {
 
 
-    public CurrencyCacheEntity mapToEntity(Currency currency) {
+    public CurrencyCacheEntity mapToCacheEntity(Currency currency) {
         CurrencyCacheEntity cache = new CurrencyCacheEntity();
         cache.setCode(currency.getCode());
+        cache.setName(currency.getName());
         cache.setSymbol(currency.getSymbol());
         cache.setRatePerUsd(currency.getRatePerUsd());
         cache.setLastModified(currency.getLastModified());
@@ -26,6 +27,7 @@ public class CurrencyCacheMapper {
 
         Currency currency = new Currency();
         currency.setCode(cache.getCode());
+        currency.setName(cache.getName());
         currency.setSymbol(cache.getSymbol());
         currency.setRatePerUsd(cache.getRatePerUsd());
         currency.setLastModified(cache.getLastModified());
@@ -37,6 +39,7 @@ public class CurrencyCacheMapper {
 
         Currency currency = new Currency();
         currency.setCode(entry.get("code").toString());
+        currency.setName(entry.get("name").toString());
         currency.setSymbol(entry.get("symbol").toString());
         currency.setRatePerUsd(Double.valueOf(entry.get("rate_per_usd").toString()));
         currency.setLastModified(LocalDateTime.parse(entry.get("last_modified").toString()));
@@ -48,8 +51,8 @@ public class CurrencyCacheMapper {
         Map<String, String> map = new HashMap<>();
         map.put("type", type);
         map.put("code", currency.getCode());
-        map.put("symbol", currency.getSymbol());
         map.put("name", currency.getName());
+        map.put("symbol", currency.getSymbol());
         map.put("ratePerUsd", currency.getRatePerUsd().toString());
         map.put("lastModified", currency.getLastModified().toString());
 

@@ -1,15 +1,17 @@
 spring:
+  application:
+    name: spring-redis
   cache:
     type: redis
     redis:
       time-to-live: 60s
     cache-names: currencies
-  application:
-    name: spring-redis
   data:
     redis:
       host: localhost
       port: 6379
       password: password
-      username: root
       timeout: 10s
+  threads:
+    virtual:
+      enabled: true

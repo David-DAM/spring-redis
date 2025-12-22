@@ -1,4 +1,4 @@
-package com.davinchicoder.spring.redis.infrastructure.scheduler.client;
+package com.davinchicoder.spring.redis.infrastructure.scheduler.client.dto;
 
 import java.util.List;
 

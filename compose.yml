@@ -1,15 +1,15 @@
-version: '3'
+version: "3.1"
 
 services:
   redis:
     image: redis:8.2-alpine
+    command: redis-server --requirepass password
     volumes:
       - redis_data:/data
-    environment:
-      - REDIS_USERNAME=root
-      - REDIS_PASSWORD=password
+    ports:
+      - "6379:6379"
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: [ "CMD", "redis-cli", "-a", "password", "ping" ]
       interval: 5s
       timeout: 3s
       retries: 10

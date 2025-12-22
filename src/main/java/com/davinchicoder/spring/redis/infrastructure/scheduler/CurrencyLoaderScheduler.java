@@ -37,7 +37,7 @@ public class CurrencyLoaderScheduler {
     @Retryable(maxRetries = 4, delay = 500L, multiplier = 2)
     private void processData() {
         List<Currency> currencies = loadAndStoreCurrencies();
-        publishEvents(currencies);
+//        publishEvents(currencies);
     }
 
     private List<Currency> loadAndStoreCurrencies() {

@@ -23,7 +23,7 @@ public class CurrencyPipelineRepository {
             currencies.stream()
                     .forEach(currency -> {
                         String keyString = getCurrencyCacheKey(currency);
-                        CurrencyCacheEntity entity = mapper.mapToEntity(currency);
+                        CurrencyCacheEntity entity = mapper.mapToCacheEntity(currency);
 
                         connection.stringCommands().set(
                                 redisTemplate.getStringSerializer().serialize(keyString),
