@@ -15,3 +15,17 @@ spring:
   threads:
     virtual:
       enabled: true
+
+app:
+  redis:
+    currency:
+      keys:
+        events: currency-events
+        group-name: currency-group
+        instance-name: currency-instance
+        notifications: currency-notification
+        volatility: currency-volatility
+        metrics: metrics:currency:read:%s
+        rate-limit: ratelimit:%s
+        currency: currency:%s
+

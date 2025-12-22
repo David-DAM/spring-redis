@@ -26,7 +26,7 @@ public class CurrencyLoaderScheduler {
     private final CurrencyService service;
     private final CurrencyStreamRepository streamRepository;
 
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     @SchedulerLock(name = "loadCurrencies", lockAtMostFor = "PT30S", lockAtLeastFor = "PT5S")
     public void loadPrices() {
         log.info("Loading currencies");

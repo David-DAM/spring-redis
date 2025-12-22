@@ -4,6 +4,7 @@ import com.davinchicoder.spring.redis.domain.Currency;
 import com.davinchicoder.spring.redis.infrastructure.cache.entity.CurrencyCacheEntity;
 import com.davinchicoder.spring.redis.infrastructure.cache.mapper.CurrencyCacheMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -15,6 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CurrencyPipelineRepository {
 
+    @Value("${app.redis.currency.keys.currency}")
+    private String currencyCacheKey;
     private final RedisTemplate<String, CurrencyCacheEntity> redisTemplate;
     private final CurrencyCacheMapper mapper;
 
@@ -35,7 +38,7 @@ public class CurrencyPipelineRepository {
     }
 
     private String getCurrencyCacheKey(Currency currency) {
-        return String.format("currency:%s", currency.getCode());
+        return String.format(currencyCacheKey, currency.getCode());
     }
 
 

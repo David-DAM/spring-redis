@@ -1,14 +1,18 @@
 package com.davinchicoder.spring.redis.infrastructure.scheduler.client.dto;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.LocalDateTime;
 
 public record CurrencyClientDto(
         String code,
         String symbol,
         String name,
-        @JsonAlias("rate_per_usd")
-        String ratePerUsd,
-        @JsonAlias("last_modified")
-        String lastModified
+        @JsonProperty("rate_per_usd")
+        Double ratePerUsd,
+        @JsonProperty("last_modified")
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        LocalDateTime lastModified
 ) {
 }
