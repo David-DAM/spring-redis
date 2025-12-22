@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Component
-public class CurrencyApiMapper implements Function<CurrencyDto, Currency> {
+public class CurrencyClientMapper implements Function<CurrencyClientDto, Currency> {
 
     @Override
-    public Currency apply(CurrencyDto dto) {
+    public Currency apply(CurrencyClientDto dto) {
 
         Currency currency = new Currency();
         currency.setCode(dto.code());

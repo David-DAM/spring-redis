@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,28 +17,33 @@ public class CurrencyService {
     private final CurrencyRedisRepository currencyRedisRepository;
 
     @Cacheable(value = CACHE_CURRENCIES, key = "#code")
-    public Optional<Currency> getCurrency(String code) {
-        return currencyRedisRepository.getCurrency(code);
+    public Currency getById(String code) {
+        return currencyRedisRepository.getById(code).orElseThrow(RuntimeException::new);
     }
 
     @Cacheable(value = CACHE_CURRENCIES)
-    public List<Currency> getAllCurrencies() {
-        return currencyRedisRepository.getAllCurrencies();
+    public List<Currency> getAll() {
+        return currencyRedisRepository.getAll();
     }
 
     @CacheEvict(value = CACHE_CURRENCIES, key = "#currency.code")
-    public void saveCurrency(Currency currency) {
-        currencyRedisRepository.saveCurrency(currency);
-    }
-
-    @CacheEvict(value = CACHE_CURRENCIES, key = "#code")
-    public void deleteCurrency(String code) {
-        currencyRedisRepository.deletePrice(code);
+    public void upsert(Currency currency) {
+        currencyRedisRepository.upsert(currency);
     }
 
     @CacheEvict(value = CACHE_CURRENCIES, allEntries = true)
-    public void deleteAllCurrencies() {
-        currencyRedisRepository.deleteAllPrices();
+    public void upsertAll(List<Currency> currencies) {
+        currencyRedisRepository.upsertAll(currencies);
+    }
+
+    @CacheEvict(value = CACHE_CURRENCIES, key = "#code")
+    public void delete(String code) {
+        currencyRedisRepository.delete(code);
+    }
+
+    @CacheEvict(value = CACHE_CURRENCIES, allEntries = true)
+    public void deleteAll() {
+        currencyRedisRepository.deleteAll();
     }
 
 }

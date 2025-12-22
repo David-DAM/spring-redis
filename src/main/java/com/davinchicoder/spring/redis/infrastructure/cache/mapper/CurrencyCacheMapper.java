@@ -4,6 +4,10 @@ import com.davinchicoder.spring.redis.domain.Currency;
 import com.davinchicoder.spring.redis.infrastructure.cache.entity.CurrencyCacheEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class CurrencyCacheMapper {
 
@@ -28,4 +32,29 @@ public class CurrencyCacheMapper {
 
         return currency;
     }
+
+    public Currency mapToDomain(Map<Object, Object> entry) {
+
+        Currency currency = new Currency();
+        currency.setCode(entry.get("code").toString());
+        currency.setSymbol(entry.get("symbol").toString());
+        currency.setRatePerUsd(Double.valueOf(entry.get("rate_per_usd").toString()));
+        currency.setLastModified(LocalDateTime.parse(entry.get("last_modified").toString()));
+
+        return currency;
+    }
+
+    public Map<String, String> mapToHashMap(Currency currency, String type) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", type);
+        map.put("code", currency.getCode());
+        map.put("symbol", currency.getSymbol());
+        map.put("name", currency.getName());
+        map.put("ratePerUsd", currency.getRatePerUsd().toString());
+        map.put("lastModified", currency.getLastModified().toString());
+
+        return map;
+    }
+
+
 }

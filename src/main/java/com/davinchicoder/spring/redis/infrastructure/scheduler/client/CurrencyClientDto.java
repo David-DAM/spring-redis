@@ -2,7 +2,7 @@ package com.davinchicoder.spring.redis.infrastructure.scheduler.client;
 
 import java.time.LocalDateTime;
 
-public record CurrencyDto(
+public record CurrencyClientDto(
         String code,
         String symbol,
         String name,

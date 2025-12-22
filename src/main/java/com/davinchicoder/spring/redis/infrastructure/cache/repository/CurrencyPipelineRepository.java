@@ -22,7 +22,7 @@ public class CurrencyPipelineRepository {
         redisTemplate.executePipelined((RedisCallback<?>) (connection) -> {
             currencies.stream()
                     .forEach(currency -> {
-                        String keyString = "currency:".concat(currency.getCode());
+                        String keyString = getCurrencyCacheKey(currency);
                         CurrencyCacheEntity entity = mapper.mapToEntity(currency);
 
                         connection.stringCommands().set(
@@ -32,6 +32,10 @@ public class CurrencyPipelineRepository {
                     });
             return null;
         });
+    }
+
+    private String getCurrencyCacheKey(Currency currency) {
+        return String.format("currency:%s", currency.getCode());
     }
 
 
