@@ -60,24 +60,24 @@ public class CurrencyLoaderScheduler {
                 ))
                 .ifPresent(streamRepository::publishCurrencyEvent);
 
-//        currencies.stream()
-//                .min(Comparator.comparing(Currency::getRatePerUsd))
-//                .map(currency -> new CurrencyEvent(
-//                        UUID.randomUUID().toString(),
-//                        CurrencyEventType.CURRENCY_MIN_PRICE_UPDATED,
-//                        Instant.now(),
-//                        currency
-//                ))
-//                .ifPresent(streamRepository::publishCurrencyEvent);
-//
-//        currencies.stream()
-//                .map(currency -> new CurrencyEvent(
-//                        UUID.randomUUID().toString(),
-//                        CurrencyEventType.CURRENCY_UPDATED,
-//                        Instant.now(),
-//                        currency
-//                ))
-//                .forEach(streamRepository::publishCurrencyEvent);
+        currencies.stream()
+                .min(Comparator.comparing(Currency::getRatePerUsd))
+                .map(currency -> new CurrencyEvent(
+                        UUID.randomUUID().toString(),
+                        currency.getCode(),
+                        CurrencyEventType.CURRENCY_MIN_PRICE_UPDATED.name(),
+                        Instant.now().toEpochMilli()
+                ))
+                .ifPresent(streamRepository::publishCurrencyEvent);
+
+        currencies.stream()
+                .map(currency -> new CurrencyEvent(
+                        UUID.randomUUID().toString(),
+                        currency.getCode(),
+                        CurrencyEventType.CURRENCY_UPDATED.name(),
+                        Instant.now().toEpochMilli()
+                ))
+                .forEach(streamRepository::publishCurrencyEvent);
     }
 
 }

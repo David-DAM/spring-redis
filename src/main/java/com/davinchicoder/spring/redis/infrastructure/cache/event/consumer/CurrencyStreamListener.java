@@ -1,7 +1,7 @@
 package com.davinchicoder.spring.redis.infrastructure.cache.event.consumer;
 
 import com.davinchicoder.spring.redis.domain.CurrencyEvent;
-import com.davinchicoder.spring.redis.infrastructure.cache.mapper.CurrencyCacheMapper;
+import com.davinchicoder.spring.redis.infrastructure.cache.event.mapper.CurrencyEventMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +24,7 @@ public class CurrencyStreamListener implements StreamListener<String, MapRecord<
 
 
     private final RedisTemplate<String, String> redisTemplate;
-    private final CurrencyCacheMapper mapper;
+    private final CurrencyEventMapper mapper;
 
     @Override
     public void onMessage(MapRecord<String, String, String> message) {

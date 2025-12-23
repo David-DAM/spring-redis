@@ -4,10 +4,10 @@ import com.davinchicoder.spring.redis.domain.CurrencyEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
-@Repository
+@Service
 @RequiredArgsConstructor
 public class CurrencyPubSubProducer {
 
