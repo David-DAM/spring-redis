@@ -1,7 +1,7 @@
 package com.davinchicoder.spring.redis.infrastructure.cache.event.producer;
 
 import com.davinchicoder.spring.redis.domain.CurrencyEvent;
-import com.davinchicoder.spring.redis.infrastructure.cache.event.mapper.CurrencyEventMapper;
+import com.davinchicoder.spring.redis.infrastructure.cache.mapper.CurrencyEventMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

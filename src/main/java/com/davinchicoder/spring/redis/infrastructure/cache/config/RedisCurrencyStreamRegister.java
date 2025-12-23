@@ -6,7 +6,7 @@ import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.RedisSystemException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.stream.Consumer;
 import org.springframework.data.redis.connection.stream.MapRecord;
 import org.springframework.data.redis.connection.stream.ReadOffset;
@@ -55,16 +55,9 @@ public class RedisCurrencyStreamRegister {
                     ReadOffset.latest(),
                     currencyGroupName
             );
-        } catch (RedisSystemException e) {
-            if (e.getCause() instanceof io.lettuce.core.RedisBusyException) {
-                log.debug("Redis is busy, group created previously");
-            } else {
-                log.error("Error creating currency stream group", e);
-                throw e;
-            }
-        } catch (Exception e) {
-            log.error("Error starting currency stream listener", e);
-            throw e;
+
+        } catch (DataAccessException e) {
+            log.warn("Redis stream group '{}' already exists", currencyGroupName);
         }
 
         subscription = container.receive(
@@ -74,14 +67,20 @@ public class RedisCurrencyStreamRegister {
         );
 
         container.start();
-
+        log.info("Redis stream listener started [{}:{}]",
+                currencyGroupName,
+                currencyInstanceName
+        );
     }
 
     @PreDestroy
     public void stop() {
+        log.info("Stopping Redis stream listener...");
+
         if (subscription != null) {
             subscription.cancel();
         }
+
         container.stop();
     }
 }

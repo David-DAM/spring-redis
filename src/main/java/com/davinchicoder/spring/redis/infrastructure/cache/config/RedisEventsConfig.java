@@ -42,6 +42,7 @@ public class RedisEventsConfig {
                         .builder()
                         .pollTimeout(Duration.ofSeconds(1))
                         .batchSize(10)
+                        .errorHandler(new RedisStreamErrorHandler())
                         .build();
 
         return StreamMessageListenerContainer.create(connectionFactory, options);

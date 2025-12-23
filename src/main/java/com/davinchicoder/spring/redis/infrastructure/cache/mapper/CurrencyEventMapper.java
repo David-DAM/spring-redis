@@ -1,4 +1,4 @@
-package com.davinchicoder.spring.redis.infrastructure.cache.event.mapper;
+package com.davinchicoder.spring.redis.infrastructure.cache.mapper;
 
 import com.davinchicoder.spring.redis.domain.CurrencyEvent;
 import org.springframework.stereotype.Component;

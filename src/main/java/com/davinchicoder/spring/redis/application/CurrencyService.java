@@ -2,6 +2,7 @@ package com.davinchicoder.spring.redis.application;
 
 import com.davinchicoder.spring.redis.domain.Currency;
 import com.davinchicoder.spring.redis.domain.CurrencyNotFoundException;
+import com.davinchicoder.spring.redis.infrastructure.cache.repository.CurrencyCounterRepository;
 import com.davinchicoder.spring.redis.infrastructure.cache.repository.CurrencyRedisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,12 @@ public class CurrencyService {
 
     public static final String CACHE_CURRENCIES = "currencies";
     private final CurrencyRedisRepository currencyRedisRepository;
+    private final CurrencyCounterRepository currencyCounterRepository;
 
     @Cacheable(value = CACHE_CURRENCIES, key = "#code")
     public Currency getById(String code) {
         log.info("Getting currency by code: {}", code);
+        currencyCounterRepository.incrementCurrencyRead(code);
         return currencyRedisRepository.getById(code).orElseThrow(() -> new CurrencyNotFoundException(code));
     }
 
