@@ -23,16 +23,15 @@ public class CurrencyPipelineRepository {
 
     public void saveAllPipelined(List<Currency> currencies) {
         redisTemplate.executePipelined((RedisCallback<?>) (connection) -> {
-            currencies.stream()
-                    .forEach(currency -> {
-                        String keyString = getCurrencyCacheKey(currency);
-                        CurrencyCacheEntity entity = mapper.mapToCacheEntity(currency);
+            currencies.forEach(currency -> {
+                String keyString = getCurrencyCacheKey(currency);
+                CurrencyCacheEntity entity = mapper.mapToCacheEntity(currency);
 
-                        connection.stringCommands().set(
-                                redisTemplate.getStringSerializer().serialize(keyString),
-                                ((RedisSerializer<CurrencyCacheEntity>) redisTemplate.getValueSerializer()).serialize(entity)
-                        );
-                    });
+                connection.stringCommands().set(
+                        redisTemplate.getStringSerializer().serialize(keyString),
+                        ((RedisSerializer<CurrencyCacheEntity>) redisTemplate.getValueSerializer()).serialize(entity)
+                );
+            });
             return null;
         });
     }

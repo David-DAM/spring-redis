@@ -1,10 +1,10 @@
 package com.davinchicoder.spring.redis.infrastructure.cache.mapper;
 
 import com.davinchicoder.spring.redis.domain.Currency;
+import com.davinchicoder.spring.redis.domain.CurrencyEvent;
 import com.davinchicoder.spring.redis.infrastructure.cache.entity.CurrencyCacheEntity;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,26 +35,23 @@ public class CurrencyCacheMapper {
         return currency;
     }
 
-    public Currency mapToDomain(Map<Object, Object> entry) {
+    public CurrencyEvent mapToCurrencyEvent(Map<String, String> entry) {
 
-        Currency currency = new Currency();
-        currency.setCode(entry.get("code").toString());
-        currency.setName(entry.get("name").toString());
-        currency.setSymbol(entry.get("symbol").toString());
-        currency.setRatePerUsd(Double.valueOf(entry.get("rate_per_usd").toString()));
-        currency.setLastModified(LocalDateTime.parse(entry.get("last_modified").toString()));
+        CurrencyEvent currencyEvent = new CurrencyEvent();
+        currencyEvent.setEventId(entry.get("eventId"));
+        currencyEvent.setCurrencyId(entry.get("currencyId"));
+        currencyEvent.setType(entry.get("type"));
+        currencyEvent.setTimestamp(Long.valueOf(entry.get("timestamp")));
 
-        return currency;
+        return currencyEvent;
     }
 
-    public Map<String, String> mapToHashMap(Currency currency, String type) {
+    public Map<String, String> mapCurrencyEventToHashMap(CurrencyEvent currencyEvent) {
         Map<String, String> map = new HashMap<>();
-        map.put("type", type);
-        map.put("code", currency.getCode());
-        map.put("name", currency.getName());
-        map.put("symbol", currency.getSymbol());
-        map.put("ratePerUsd", currency.getRatePerUsd().toString());
-        map.put("lastModified", currency.getLastModified().toString());
+        map.put("eventId", currencyEvent.getEventId());
+        map.put("currencyId", currencyEvent.getCurrencyId());
+        map.put("type", currencyEvent.getType());
+        map.put("timestamp", currencyEvent.getTimestamp().toString());
 
         return map;
     }

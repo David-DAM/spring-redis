@@ -1,13 +1,17 @@
 package com.davinchicoder.spring.redis.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CurrencyEvent {
 
-    private String code;
-    private CurrencyEventType type;
-    private String name;
-    private String symbol;
+    private String eventId;
+    private String currencyId;
+    private String type;
+    private Long timestamp;
 
 }

@@ -1,4 +1,4 @@
-package com.davinchicoder.spring.redis.infrastructure.cache.repository;
+package com.davinchicoder.spring.redis.infrastructure.cache.event.producer;
 
 import com.davinchicoder.spring.redis.domain.CurrencyEvent;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,8 @@ import tools.jackson.databind.ObjectMapper;
 
 @Repository
 @RequiredArgsConstructor
-public class CurrencyPublisherRepository {
+public class CurrencyPubSubProducer {
+
     @Value("${app.redis.currency.keys.notifications}")
     private String notificationChannelKey;
     private final RedisTemplate<String, String> redisTemplate;

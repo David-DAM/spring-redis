@@ -2,8 +2,9 @@ package com.davinchicoder.spring.redis.infrastructure.scheduler;
 
 import com.davinchicoder.spring.redis.application.CurrencyService;
 import com.davinchicoder.spring.redis.domain.Currency;
+import com.davinchicoder.spring.redis.domain.CurrencyEvent;
 import com.davinchicoder.spring.redis.domain.CurrencyEventType;
-import com.davinchicoder.spring.redis.infrastructure.cache.repository.CurrencyStreamRepository;
+import com.davinchicoder.spring.redis.infrastructure.cache.event.producer.CurrencyStreamProducer;
 import com.davinchicoder.spring.redis.infrastructure.scheduler.client.CurrencyClient;
 import com.davinchicoder.spring.redis.infrastructure.scheduler.client.CurrencyClientMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,10 @@ import org.springframework.resilience.annotation.Retryable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -24,7 +27,7 @@ public class CurrencyLoaderScheduler {
     private final CurrencyClient client;
     private final CurrencyClientMapper mapper;
     private final CurrencyService service;
-    private final CurrencyStreamRepository streamRepository;
+    private final CurrencyStreamProducer streamRepository;
 
     @Scheduled(cron = "*/30 * * * * *")
     @SchedulerLock(name = "loadCurrencies", lockAtMostFor = "PT30S", lockAtLeastFor = "PT5S")
@@ -37,7 +40,7 @@ public class CurrencyLoaderScheduler {
     @Retryable(maxRetries = 4, delay = 500L, multiplier = 2)
     private void processData() {
         List<Currency> currencies = loadAndStoreCurrencies();
-//        publishEvents(currencies);
+        publishEvents(currencies);
     }
 
     private List<Currency> loadAndStoreCurrencies() {
@@ -49,13 +52,32 @@ public class CurrencyLoaderScheduler {
     private void publishEvents(List<Currency> currencies) {
         currencies.stream()
                 .max(Comparator.comparing(Currency::getRatePerUsd))
-                .ifPresent(currency -> streamRepository.publishCurrencyEvent(currency, CurrencyEventType.CURRENCY_MAX_PRICE_UPDATED.name()));
+                .map(currency -> new CurrencyEvent(
+                        UUID.randomUUID().toString(),
+                        currency.getCode(),
+                        CurrencyEventType.CURRENCY_MAX_PRICE_UPDATED.name(),
+                        Instant.now().toEpochMilli()
+                ))
+                .ifPresent(streamRepository::publishCurrencyEvent);
 
-        currencies.stream()
-                .min(Comparator.comparing(Currency::getRatePerUsd))
-                .ifPresent(currency -> streamRepository.publishCurrencyEvent(currency, CurrencyEventType.CURRENCY_MIN_PRICE_UPDATED.name()));
-
-        currencies.forEach(currency -> streamRepository.publishCurrencyEvent(currency, CurrencyEventType.CURRENCY_UPDATED.name()));
+//        currencies.stream()
+//                .min(Comparator.comparing(Currency::getRatePerUsd))
+//                .map(currency -> new CurrencyEvent(
+//                        UUID.randomUUID().toString(),
+//                        CurrencyEventType.CURRENCY_MIN_PRICE_UPDATED,
+//                        Instant.now(),
+//                        currency
+//                ))
+//                .ifPresent(streamRepository::publishCurrencyEvent);
+//
+//        currencies.stream()
+//                .map(currency -> new CurrencyEvent(
+//                        UUID.randomUUID().toString(),
+//                        CurrencyEventType.CURRENCY_UPDATED,
+//                        Instant.now(),
+//                        currency
+//                ))
+//                .forEach(streamRepository::publishCurrencyEvent);
     }
 
 }

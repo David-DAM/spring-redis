@@ -1,4 +1,4 @@
-package com.davinchicoder.spring.redis.infrastructure.cache.consumer;
+package com.davinchicoder.spring.redis.infrastructure.cache.event.consumer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.Message;
@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 @Slf4j
-public class CurrencyNotificationConsumer implements MessageListener {
+public class CurrencyPubSubConsumer implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
