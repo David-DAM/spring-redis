@@ -1,8 +1,9 @@
 package com.davinchicoder.spring.redis.infrastructure.api.controller;
 
+import com.davinchicoder.api.CurrencyApi;
+import com.davinchicoder.api.dto.CurrencyDto;
 import com.davinchicoder.spring.redis.application.CurrencyService;
 import com.davinchicoder.spring.redis.domain.Currency;
-import com.davinchicoder.spring.redis.infrastructure.api.dto.CurrencyDto;
 import com.davinchicoder.spring.redis.infrastructure.api.mapper.CurrencyDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/{version}/currency", version = "v1")
 @RequiredArgsConstructor
-public class CurrencyController {
+public class CurrencyController implements CurrencyApi {
 
     private final CurrencyService service;
     private final CurrencyDtoMapper mapper;

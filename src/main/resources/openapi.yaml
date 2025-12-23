@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: Currency API
+  description: API for managing and retrieving currency exchange rates and related information
+  summary: RESTful API for currency data and exchange rates management
+  version: 1.0.0
+  contact:
+    name: DavinchiCoder
+servers:
+  - url: 'http://localhost:8080'
+tags:
+  - name: Currency
+    description: Currency related operations
+paths:
+  /api/{version}/currency:
+    get:
+      tags: [ Currency ]
+      operationId: getCurrencies
+      parameters:
+        - $ref: '#/components/parameters/version'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CurrencyDto'
+
+  /api/{version}/currency/{code}:
+    get:
+      tags: [ Currency ]
+      operationId: getCurrency
+      parameters:
+        - $ref: '#/components/parameters/version'
+        - $ref: '#/components/parameters/code'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyDto'
+
+components:
+  parameters:
+    version:
+      name: version
+      in: path
+      description: API version
+      required: true
+      schema:
+        type: string
+        enum: [ v1, v2, v3 ]
+
+    code:
+      name: code
+      in: path
+      description: Currency code
+      required: true
+      schema:
+        type: string
+
+  schemas:
+    CurrencyDto:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+          example: USD
+        symbol:
+          type: string
+          example: $
+        name:
+          type: string
+          example: US Dollar
+        ratePerUsd:
+          type: number
+          format: double
+          example: 1.0
+        lastModified:
+          type: string
+          format: date-time
+          example: 2021-09-29T15:59:59Z
+  
