@@ -33,7 +33,7 @@ public class CurrencyLoaderScheduler {
 
     @Scheduled(cron = "*/30 * * * * *")
     @SchedulerLock(name = "loadCurrencies", lockAtMostFor = "PT30S", lockAtLeastFor = "PT5S")
-    public void loadPrices() {
+    public void loadCurrencies() {
         log.info("Loading currencies");
         processData();
         log.info("Currencies loaded");
